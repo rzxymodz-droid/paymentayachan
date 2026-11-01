@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayaa Chan - Pricelist & Payment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- RESET & BASIC STYLING --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Background aesthetic pink lembut menyesuaikan tema foto */
+            background: linear-gradient(135deg, #fdfbfb 0%, #f3e6e8 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        /* --- HEADER UTAMA --- */
+        .main-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .main-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #8c5a62; /* Warna maroon/pink tua aesthetic */
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .main-header p {
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- CONTAINER UTAMA --- */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* --- SECTION CARD UMUM --- */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(140, 90, 98, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: #8c5a62;
+            font-size: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px solid #f0e0e2;
+            padding-bottom: 10px;
+        }
+
+        /* --- PRICELIST IMAGES --- */
+        .pricelist-img {
+            width: 100%;
+            border-radius: 12px;
+            display: block;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .pricelist-img:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- PAYMENT SECTION (DARI KODE SEBELUMNYA) --- */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .method-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #faf8f8;
+            border: 1px solid #efe6e7;
+            padding: 12px 16px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .method-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(140, 90, 98, 0.1);
+            border-color: #8c5a62;
+        }
+
+        .method-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .method-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: white;
+            font-size: 12px;
+        }
+
+        .dana-icon { background-color: #118EEA; }
+        .gopay-icon { background-color: #00AA13; }
+
+        .method-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .method-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .method-number {
+            font-size: 15px;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .btn-copy {
+            background: #f0e0e2;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #8c5a62;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: #8c5a62;
+            color: white;
+        }
+
+        /* --- DIVIDER --- */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #a8888d;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e8d5d8;
+        }
+
+        .divider::before { margin-right: 10px; }
+        .divider::after { margin-left: 10px; }
+
+        /* --- QRIS SECTION --- */
+        .qris-section {
+            text-align: center;
+            background: #fff;
+            border: 2px dashed #dbb5bb;
+            border-radius: 16px;
+            padding: 15px;
+        }
+
+        .qris-section img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .qris-text {
+            font-size: 12px;
+            color: #8c5a62;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            font-weight: 600;
+            padding-bottom: 20px;
+        }
+        
+        /* --- TOAST NOTIFICATION --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #8c5a62;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(140, 90, 98, 0.3);
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="main-header">
+        <h1>AYAA CHAN</h1>
+        <p>Pricelist & Payment</p>
+    </div>
+
+    <div class="container">
+        
+        <!-- SECTION 1: DAFTAR HARGA -->
+        <div class="card">
+            <h2 class="section-title">Daftar Harga</h2>
+            
+            <!-- Gambar Pricelist 1 (Pap, Vid, Vcs) -->
+            <!-- Pastikan file gambar ada di folder yang sama -->
+            <img src="pricelist1.jpg" alt="Pricelist 1" class="pricelist-img" onerror="this.src='https://via.placeholder.com/400x600/f0e0e2/8c5a62?text=Foto+Pricelist+1'">
+            
+            <!-- Gambar Pricelist 2 (Paket VIP) -->
+            <img src="pricelist2.jpg" alt="Pricelist 2" class="pricelist-img" onerror="this.src='https://via.placeholder.com/400x600/f0e0e2/8c5a62?text=Foto+Pricelist+2'">
+        </div>
+
+        <!-- SECTION 2: PEMBAYARAN -->
+        <div class="card">
+            <h2 class="section-title">Metode Pembayaran</h2>
+            
+            <div class="payment-methods">
+                <!-- DANA -->
+                <div class="method-item">
+                    <div class="method-info">
+                        <div class="method-icon dana-icon">DANA</div>
+                        <div class="method-details">
+                            <span class="method-name">DANA</span>
+                            <span class="method-number">085117705515</span>
+                        </div>
+                    </div>
+                    <button class="btn-copy" onclick="copyText('085117705515')">Salin</button>
+                </div>
+
+                <!-- GOPAY -->
+                <div class="method-item">
+                    <div class="method-info">
+                        <div class="method-icon gopay-icon">GOPAY</div>
+                        <div class="method-details">
+                            <span class="method-name">GOPAY</span>
+                            <span class="method-number">085111655515</span>
+                        </div>
+                    </div>
+                    <button class="btn-copy" onclick="copyText('085111655515')">Salin</button>
+                </div>
+            </div>
+
+            <div class="divider">ATAU SCAN QRIS</div>
+
+            <!-- QRIS Section -->
+            <div class="qris-section">
+                <!-- GANTI "qris.jpg" DENGAN NAMA FILE GAMBAR QRIS ANDA -->
+                <img src="qris.jpg" alt="QRIS AllPay Ayaaaw" onerror="this.src='https://via.placeholder.com/250x250/f0e0e2/8c5a62?text=Foto+QRIS'">
+                <div class="qris-text">Satu QRIS untuk Semua (AllPay)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Instagram: @ayaaaw.cn
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div class="toast" id="toast">Nomor berhasil disalin!</div>
+
+    <!-- JavaScript untuk Fitur Copy -->
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                alert('Gagal menyalin teks: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>
