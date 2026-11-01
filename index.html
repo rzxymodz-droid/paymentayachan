@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYAA CHAN - Payment & Price List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Background aesthetic pink & purple */
+            background: linear-gradient(135deg, #fff0f5 0%, #f3e8ff 50%, #fae8ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: #4a3b42;
+        }
+
+        /* Container Utama */
+        .main-container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* =========================================
+           BAGIAN 1: KARTU PEMBAYARAN
+           ========================================= */
+        .payment-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 35px 25px;
+            box-shadow: 0 15px 35px rgba(197, 160, 180, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.6s ease forwards;
+        }
+
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 180px;
+            background: #f8d8e3;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #b3708c;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* --- BAGIAN YANG DIUBAH: QR CONTAINER FULL --- */
+        .qr-container {
+            background: #fff;
+            padding: 10px; /* Padding diperkecil agar gambar lebih luas */
+            border-radius: 20px;
+            display: block; /* Ubah dari inline-block ke block agar full width */
+            width: 100%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 2px solid #fce4ec;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .qr-container:hover {
+            transform: scale(1.01);
+        }
+
+        .qr-container img {
+            width: 100%; /* Memaksa gambar mengisi lebar container */
+            height: auto; /* Tinggi menyesuaikan proporsi agar tidak terpotong */
+            display: block;
+            border-radius: 12px;
+            /* object-fit: cover; <-- DIHAPUS agar gambar tidak terpotong */
+        }
+        /* ------------------------------------------- */
+
+        .qr-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #b3708c;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #b39da7;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px dashed #e0c3d0;
+        }
+
+        .divider:not(:empty)::before { margin-right: 15px; }
+        .divider:not(:empty)::after { margin-left: 15px; }
+
+        .wallet-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .wallet-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .wallet-btn.dana {
+            background: #e8f0fe;
+            color: #1a73e8;
+            border: 1px solid #d2e3fc;
+        }
+
+        .wallet-btn.gopay {
+            background: #e6fcf5;
+            color: #00875a;
+            border: 1px solid #c2f0e0;
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .wallet-btn:active { transform: translateY(0); }
+
+        .wallet-btn .number {
+            font-family: monospace;
+            font-size: 15px;
+            letter-spacing: 1px;
+            color: #555;
+        }
+
+        /* =========================================
+           BAGIAN 2: DAFTAR HARGA (PRICE LIST)
+           ========================================= */
+        .price-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 35px 25px;
+            box-shadow: 0 15px 35px rgba(197, 160, 180, 0.2);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #b3708c;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: #7a6b72;
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #b3708c;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #f0d5e1;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .price-group {
+            margin-bottom: 25px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13.5px;
+            margin-bottom: 8px;
+            color: #4a3b42;
+            font-weight: 500;
+        }
+
+        .price-item .dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #d8b8c6;
+            margin: 0 10px;
+            margin-top: 8px;
+        }
+
+        .price-item .price {
+            font-weight: 600;
+            color: #4a3b42;
+            white-space: nowrap;
+        }
+
+        /* Footer Sosmed */
+        .social-footer {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0d5e1;
+            font-size: 13px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .social-footer span {
+            color: #b3708c;
+            font-weight: 600;
+        }
+
+        /* =========================================
+           FITUR FULL SCREEN GAMBAR QRIS
+           ========================================= */
+        .fullscreen-overlay {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95); 
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            padding: 20px;
+        }
+
+        .fullscreen-overlay.active {
+            display: flex;
+        }
+
+        .fullscreen-overlay img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            animation: zoomIn 0.3s ease;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        /* Animasi */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <!-- =========================================
+             KARTU PEMBAYARAN 
+             ========================================= -->
+        <div class="payment-card">
+            <div class="title">PAYMENT & LIST</div>
+            <div class="subtitle">❀! ayaa is trusted open vcs, pap and vid pribadi⋆.𐙚 ̊</div>
+
+            <!-- Area QRIS (Bisa diklik untuk Zoom) -->
+            <div class="qr-container" onclick="openFullscreen()">
+                <!-- Pastikan link gambar QRIS asli Anda ada di sini -->
+                <img src="https://n.uguu.se/WavXPDHR.jpg" alt="QRIS Allpay">
+            </div>
+            <div class="qr-text">Klik Gambar Untuk Zoom / Scan</div>
+
+            <div class="divider">Atau Transfer E-Wallet</div>
+
+            <div class="wallet-list">
+                <!-- Saya tambahkan fitur salin otomatis pada tombol e-wallet -->
+                <button class="wallet-btn dana" onclick="copyToClipboard('085117705515')">
+                    <span>DANA</span>
+                    <span class="number">085117705515 (Salin)</span>
+                </button>
+                <button class="wallet-btn gopay" onclick="copyToClipboard('085111655515')">
+                    <span>GOPAY</span>
+                    <span class="number">085111655515 (Salin)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- =========================================
+             KARTU DAFTAR HARGA 
+             ========================================= -->
+        <div class="price-card">
+            <!-- Header -->
+            <div class="brand-header">
+                <div class="brand-title">AYAA CHAN</div>
+                <div class="brand-subtitle">DAFTAR HARGA</div>
+            </div>
+
+            <!-- Kategori: Pap & VN -->
+            <div class="price-group">
+                <div class="category-title">Pap & VN</div>
+                <div class="price-item"><span>Pap TT</span><div class="dots"></div><span class="price">Rp. 6.000</span></div>
+                <div class="price-item"><span>Pap TT+Muka</span><div class="dots"></div><span class="price">Rp. 10.000</span></div>
+                <div class="price-item"><span>Pap Memek</span><div class="dots"></div><span class="price">Rp. 8.000</span></div>
+                <div class="price-item"><span>Pap TT+Memek</span><div class="dots"></div><span class="price">Rp. 15.000</span></div>
+                <div class="price-item"><span>Pap Pribadi 30+ Foto</span><div class="dots"></div><span class="price">Rp. 40.000</span></div>
+                <div class="price-item"><span>Pap Fullbody Telanjang</span><div class="dots"></div><span class="price">Rp. 20.000</span></div>
+                <div class="price-item"><span>VN Desah+Req</span><div class="dots"></div><span class="price">Rp. 17.000</span></div>
+                <div class="price-item"><span>VN Desah</span><div class="dots"></div><span class="price">Rp. 10.000</span></div>
+            </div>
+
+            <!-- Kategori: Vid Pribadi -->
+            <div class="price-group">
+                <div class="category-title">Vid Pribadi</div>
+                <div class="price-item"><span>Remes TT</span><div class="dots"></div><span class="price">Rp. 20.000</span></div>
+                <div class="price-item"><span>Colmek</span><div class="dots"></div><span class="price">Rp. 30.000</span></div>
+                <div class="price-item"><span>Remes TT+Colmek</span><div class="dots"></div><span class="price">Rp. 35.000</span></div>
+                <div class="price-item"><span>Colmek+Crot+Desah</span><div class="dots"></div><span class="price">Rp. 40.000</span></div>
+                <div class="price-item"><span>Fullbod+Clmk+Remes TT+Liat Muka</span><div class="dots"></div><span class="price">Rp. 55.000</span></div>
+            </div>
+
+            <!-- Kategori: Vcs -->
+            <div class="price-group">
+                <div class="category-title">Vcs</div>
+                <div class="price-item"><span>10 Menit</span><div class="dots"></div><span class="price">Rp. 20.000</span></div>
+                <div class="price-item"><span>30 Menit</span><div class="dots"></div><span class="price">Rp. 40.000</span></div>
+                <div class="price-item"><span>1 Jam</span><div class="dots"></div><span class="price">Rp. 60.000</span></div>
+                <div class="price-item"><span>Vcs Sepuasnya</span><div class="dots"></div><span class="price">Rp. 120.000</span></div>
+            </div>
+
+            <!-- Kategori: Paket VIP -->
+            <div class="price-group">
+                <div class="category-title">Paket VIP</div>
+                <div class="price-item"><span>Jatah Vid Seminggu</span><div class="dots"></div><span class="price">Rp. 65.000</span></div>
+                <div class="price-item"><span>Jatah Vcs Seminggu</span><div class="dots"></div><span class="price">Rp. 80.000</span></div>
+                <div class="price-item"><span>Jatah Permanen</span><div class="dots"></div><span class="price">Rp. 200.000</span></div>
+            </div>
+
+            <!-- Footer -->
+            <div class="social-footer">
+                IG : <span>ayaaawz_</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =========================================
+         OVERLAY FULL SCREEN UNTUK GAMBAR QRIS 
+         ========================================= -->
+    <div class="fullscreen-overlay" id="qrOverlay" onclick="closeFullscreen()">
+        <span class="close-btn">&times;</span>
+        <!-- Pastikan link gambar sama dengan yang di atas -->
+        <img src="https://n.uguu.se/WavXPDHR.jpg" alt="QRIS Full Screen">
+    </div>
+
+    <script>
+        // Fungsi untuk membuka gambar Full Screen
+        function openFullscreen() {
+            document.getElementById('qrOverlay').classList.add('active');
+            // Mencegah halaman di belakang ikut ter-scroll
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Fungsi untuk menutup gambar Full Screen
+        function closeFullscreen() {
+            document.getElementById('qrOverlay').classList.remove('active');
+            // Mengembalikan fungsi scroll halaman
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Fungsi Salin Nomor E-Wallet
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Nomor ' + text + ' berhasil disalin!');
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
